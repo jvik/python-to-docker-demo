@@ -26,7 +26,6 @@ Denne workshopen inneholder 2 hands-on øvelser som tar deg gjennom hele prosess
 
 ### Forutsetninger
 
-- Python 3.11+
 - Docker
 - Git
 - [uv](https://github.com/astral-sh/uv) (valgfritt for lokal utvikling)
