@@ -1,0 +1,46 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Generate image tag
+      id: image-tag
+      run: |
+        # Generate a unique tag using timestamp and short SHA
+        TAG="ttl.sh/python-flask-demo-$(date +%s)-${{ github.sha }}:1h"
+        echo "tag=$TAG" >> $GITHUB_OUTPUT
+        echo "Image will be pushed to: $TAG"
+        
+    - name: Build Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.image-tag.outputs.tag }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        
+    - name: Image URL
+      run: |
+        echo "🐳 Docker image pushed successfully!"
+        echo "Image: ${{ steps.image-tag.outputs.tag }}"
+        echo ""
+        echo "To pull and run this image:"
+        echo "docker run -p 5000:5000 ${{ steps.image-tag.outputs.tag }}"
+        echo ""
+        echo "⚠️  Note: This image will be available for 1 hour on ttl.sh"
