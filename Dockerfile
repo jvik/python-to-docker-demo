@@ -4,17 +4,20 @@ FROM python:3.11-slim
 # Set working directory in container
 WORKDIR /app
 
-# Copy requirements file
-COPY requirements.txt .
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy dependency files
+COPY pyproject.toml .
 
-# Copy application code
-COPY app.py .
+# Copy source code
+COPY src/ src/
+
+# Install the package and its dependencies using uv
+RUN uv pip install --system -e .
 
 # Expose port 5000
 EXPOSE 5000
 
 # Run the application
-CMD ["python", "app.py"]
+CMD ["python", "-m", "python_flask_demo"]

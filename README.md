@@ -5,8 +5,9 @@ Dette repositoryet demonstrerer hvordan man bygger en enkel Flask "Hello World" 
 ## 📋 Oversikt
 
 Prosjektet inneholder:
-- En enkel Flask web-applikasjon (`app.py`)
-- Dockerfile for å containerisere applikasjonen
+- En Flask web-applikasjon med ordentlig pakkestruktur (`src/python_flask_demo/`)
+- `pyproject.toml` for moderne Python dependency management
+- Dockerfile som bruker `uv` for rask pakkeinstallasjon
 - GitHub Actions workflow som automatisk bygger og pusher Docker imaget til ttl.sh
 
 ## 🚀 Komme i gang
@@ -16,15 +17,32 @@ Prosjektet inneholder:
 - Python 3.11+
 - Docker
 - Git
+- [uv](https://github.com/astral-sh/uv) (valgfritt for lokal utvikling)
 
 ### Kjøre lokalt med Python
 
+**Med uv (anbefalt - mye raskere):**
 ```bash
-# Installer avhengigheter
-pip install -r requirements.txt
+# Installer prosjektet og avhengigheter
+uv sync
 
 # Kjør applikasjonen
-python app.py
+uv run python -m python_flask_demo
+
+# Eller etter installasjonen:
+uv run flask-demo
+```
+
+**Med pip:**
+```bash
+# Installer prosjektet i editable mode
+pip install -e .
+
+# Kjør applikasjonen
+python -m python_flask_demo
+
+# Eller bruk entry point:
+flask-demo
 ```
 
 Applikasjonen vil være tilgjengelig på `http://localhost:5000`
@@ -45,9 +63,12 @@ docker run -p 5000:5000 flask-demo
 
 ```
 .
-├── app.py                 # Flask applikasjon
-├── requirements.txt       # Python avhengigheter
-├── Dockerfile            # Docker konfigurasjon
+├── src/
+│   └── python_flask_demo/
+│       ├── __init__.py   # Hoved Flask applikasjon
+│       └── __main__.py   # Entry point for å kjøre som modul
+├── pyproject.toml        # Python avhengigheter og prosjekt metadata
+├── Dockerfile            # Docker konfigurasjon (bruker uv)
 ├── .github/
 │   └── workflows/
 │       └── docker.yml    # GitHub Actions workflow
@@ -58,9 +79,16 @@ docker run -p 5000:5000 flask-demo
 
 Dockerfilen bruker:
 - `python:3.11-slim` som base image
-- Installerer Flask og Werkzeug
+- `uv` for lynrask pakkeinstallasjon (10-100x raskere enn pip)
+- `pyproject.toml` for moderne dependency management
 - Eksponerer port 5000
 - Kjører Flask applikasjonen
+
+**Hvorfor uv?**
+- Ekstremt rask pakkeinstallasjon (skrevet i Rust)
+- Bedre dependency resolution
+- Mindre diskbruk
+- Reduserer byggetid betydelig i Docker
 
 ## 🔄 GitHub Actions Workflow
 
