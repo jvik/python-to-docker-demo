@@ -10,7 +10,19 @@ Prosjektet inneholder:
 - Dockerfile som bruker `uv` for rask pakkeinstallasjon
 - GitHub Actions workflow som automatisk bygger og pusher Docker imaget til ttl.sh
 
-## 🚀 Komme i gang
+## � Øvelser
+
+Denne workshopen inneholder 2 hands-on øvelser som tar deg gjennom hele prosessen fra kloning til automatisk deployment:
+
+- [Øvelse 1 - Klone, endre og kjøre lokalt](exercise-1/README.md) - Klon repositoriet, gjør endringer i Flask applikasjonen, bygg Docker image og kjør lokalt
+- [Øvelse 2 - Fork, CI/CD og ttl.sh](exercise-2/README.md) - Fork repositoriet, bruk GitHub Actions til å automatisk bygge og publisere til ttl.sh
+
+**Symboler brukt i øvelsene:**
+- :pencil2: - En oppgave du skal gjøre
+- :bulb: - Tilleggsinformasjon
+- :exclamation: - Noe viktig
+
+## �🚀 Komme i gang
 
 ### Forutsetninger
 
@@ -67,6 +79,10 @@ docker run -p 5000:5000 flask-demo
 │   └── python_flask_demo/
 │       ├── __init__.py   # Hoved Flask applikasjon
 │       └── __main__.py   # Entry point for å kjøre som modul
+├── exercise-1/           # Øvelse 1: Klone, endre og kjøre lokalt
+│   └── README.md
+├── exercise-2/           # Øvelse 2: Fork, CI/CD og ttl.sh
+│   └── README.md
 ├── pyproject.toml        # Python avhengigheter og prosjekt metadata
 ├── Dockerfile            # Docker konfigurasjon (bruker uv)
 ├── .github/
