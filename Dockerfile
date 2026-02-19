@@ -1,23 +1,20 @@
-# Use official Python runtime as base image
-FROM python:3.11-slim
+# Use official UV image with Python 3.11
+FROM ghcr.io/astral-sh/uv:python3.11-bookworm-slim
 
 # Set working directory in container
 WORKDIR /app
 
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+# Copy dependency files first for better caching
+COPY pyproject.toml uv.lock ./
 
-# Copy dependency files
-COPY pyproject.toml .
+# Install dependencies (creates .venv by default)
+RUN uv sync --frozen --no-dev
 
 # Copy source code
 COPY src/ src/
 
-# Install the package and its dependencies using uv
-RUN uv pip install --system -e .
-
 # Expose port 5000
 EXPOSE 5000
 
-# Run the application
-CMD ["python", "-m", "python_flask_demo"]
+# Run the application using uv run
+CMD ["uv", "run", "flask-demo"]
