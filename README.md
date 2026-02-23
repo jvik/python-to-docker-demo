@@ -24,6 +24,10 @@ Denne workshopen inneholder 2 hands-on øvelser som tar deg gjennom hele prosess
 
 ## �🚀 Komme i gang
 
+## Contributors
+
+- Ole Nerdrum
+
 ### Forutsetninger
 
 - Docker
